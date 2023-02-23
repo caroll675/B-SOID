@@ -3,11 +3,19 @@ import os
 import joblib
 
 
-@st.cache
+@st.cache # Cache the function so that it is only computed once
 def load_data(path, name):
     with open(os.path.join(path, str.join('', (name, '_data.sav'))), 'rb') as fr:
         data = joblib.load(fr)
     return [i for i in data]
+    # len(data) = 8
+    # data[0] = str, path to root directory, e.g. 'C:\\Users\\chang\\DeepLabCut\\main\\JUPYTER\\DLC_Data'
+    # data[1] = list, path to subdirectory, e.g. ['/video_copy']
+    # data[2] = int, frame rate, e.g. 30
+    # data[3] = list, pose_chosen 
+    # data[4] = list, prediction csv, e.g.['C:\\Users\\chang\\DeepLabCut\\main\\JUPYTER\\DLC_Data/video_copy\\2022-11-06 13-57-19DLC_resnet50_mainDec6shuffle1_120000.csv']
+    # data[5], data[6] = list, data of the prediction csv, aka processed_input_data
+    # data[7] = list, sub_threshold 
 
 
 def query_workspace():
@@ -37,7 +45,7 @@ def query_workspace():
 def load_feats(path, name):
     with open(os.path.join(path, str.join('', (name, '_feats.sav'))), 'rb') as fr:
         data = joblib.load(fr)
-    return [i for i in data]
+    return [i for i in data] 
 
 
 @st.cache
@@ -45,14 +53,20 @@ def load_embeddings(path, name):
     with open(os.path.join(path, str.join('', (name, '_embeddings.sav'))), 'rb') as fr:
         data = joblib.load(fr)
     return [i for i in data]
-
+# len(data) = 2
+# data[0] = np.array, sampled_features, e.g.sampled_features.shape = (47999, 49)
+# data[1] = np.array, sampled_embeddings, e.g.sampled_embeddings.shape = (47999, 16)
 
 @st.cache
 def load_clusters(path, name):
     with open(os.path.join(path, str.join('', (name, '_clusters.sav'))), 'rb') as fr:
         data = joblib.load(fr)
     return [i for i in data]
-
+# len(data) = 4
+# data[0] = np.array, unknown 
+# data[1] = np.arrary, assignments
+# data[2] = np.array, assign_prob
+# data[3] = np.array, soft_assignments
 
 @st.cache(allow_output_mutation=True)
 def load_classifier(path, name):

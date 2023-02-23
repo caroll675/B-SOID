@@ -59,6 +59,7 @@ class export:
                                                                 ('HDBSCAN*SOFT', 'Assignment')],
                                                                names=['Type', 'Frame@10Hz'])
                     assignments_df = pd.DataFrame(assignments_data, columns=multi_columns2)
+                    # examine how training_data is generated 
                     training_data = pd.concat((features_df, assignments_df), axis=1)
                     training_data.index.name = 'Frame@10hz'
                     training_data.to_csv(

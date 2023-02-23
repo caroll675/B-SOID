@@ -63,7 +63,7 @@ class cluster:
     def slider(self, min_=0.5, max_=1.0):
         st.markdown('The following slider allows you to tweak number of groups based on minimum size requirements.')
         st.text('')
-        self.cluster_range = st.slider('Select range of __minimum cluster size__ in %', 0.01, 5.0, (min_, max_))
+        self.cluster_range = st.slider('Select range of __minimum cluster size__ in %', 0.01, 60.0, (min_, max_))
         st.markdown('Your minimum cluster size ranges between **{}%** and **{}%**, '
                     'which is equivalent to roughly {} seconds for the '
                     'smallest cluster.'.format(self.cluster_range[0], self.cluster_range[1],

@@ -97,7 +97,7 @@ class preprocess:
                 funfacts = randfacts.getFact()
                 st.info(str.join('', ('Preprocessing... Here is a random fact: ', funfacts)))
                 for i, fd in enumerate(self.data_directories):  # Loop through folders
-                    f = get_filenames(self.root_path, fd)
+                    f = get_filenames(self.root_path, fd) # f is the prediction csv file
                     my_bar = st.progress(0)
                     for j, filename in enumerate(f):
                         file_j_df = pd.read_csv(filename, low_memory=False)
@@ -107,7 +107,7 @@ class preprocess:
                         self.processed_input_data.append(file_j_processed)
                         self.input_filenames.append(filename)
                         my_bar.progress(round((j + 1) / len(f) * 100))
-                with open(os.path.join(self.working_dir, str.join('', (self.prefix, '_data.sav'))), 'wb') as f:
+                with open(os.path.join(self.working_dir, str.join('', (self.prefix, '_data.sav'))), 'wb') as f: 
                     joblib.dump(
                         [self.root_path, self.data_directories, self.framerate, self.pose_chosen, self.input_filenames,
                          self.raw_input_data, np.array(self.processed_input_data), self.sub_threshold], f

@@ -23,9 +23,10 @@ st.markdown('Step 3: Starting with Extract Features and Identify Clusters, selec
 st.text('')
 if st.sidebar.checkbox('Load previous iteration', False, key='l'):
     working_dir, prefix = query_workspace()
+
 if st.sidebar.checkbox('Load data and preprocess', False, key='d'):
     try:
-        [_, _, _, _, _, raw_input_data, processed_input_data, sub_threshold] = load_data(working_dir, prefix)
+        [_, _, _, _, _, raw_input_data, processed_input_data, sub_threshold] = load_data(working_dir, prefix) 
         st.markdown('**_CHECK POINT_**: Processed a total of **{}** data files, '
                     'and compiled into a **{}** data list. Move on to '
                     '__Extract and embed features__.'.format(len(raw_input_data), processed_input_data.shape))
@@ -41,13 +42,16 @@ if st.sidebar.checkbox('Load data and preprocess', False, key='d'):
         processor = data_preprocess.preprocess()
         processor.compile_data()
 if st.sidebar.checkbox('Extract and embed features', False, key='f'):
-    [_, _, framerate, _, _, _, processed_input_data, _] = load_data(working_dir, prefix)
+    [_, _, framerate, _, _, _, processed_input_data, _] = load_data(working_dir, prefix) 
     extractor = extract_features.extract(working_dir, prefix, processed_input_data, framerate)
     extractor.main()
 if st.sidebar.checkbox('Identify and tweak number of clusters', False, key='c'):
     [_, sampled_embeddings] = load_embeddings(working_dir, prefix)
     clusterer = clustering.cluster(working_dir, prefix, sampled_embeddings)
     clusterer.main()
+
+############## above steps should be enough to assign a cluster to each frame ##############
+
 if st.sidebar.checkbox('(Optional) What did B-SOiD learn?', False, key='e'):
     [sampled_features, _] = load_embeddings(working_dir, prefix)
     [_, assignments, assign_prob, soft_assignments] = load_clusters(working_dir, prefix)

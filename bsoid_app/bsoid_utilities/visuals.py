@@ -5,6 +5,7 @@ import seaborn as sns
 import streamlit as st
 from matplotlib.axes._axes import _log as matplotlib_axes_logger
 from sklearn.metrics import plot_confusion_matrix
+import os 
 
 matplotlib_axes_logger.setLevel('ERROR')
 
@@ -32,20 +33,33 @@ def plot_classes(data, assignments):
     :param data: 2D array, umap_embeddings
     :param assignments: 1D array, HDBSCAN assignments
     """
+    ####### changes made here ########
+    # save data and assignments to separate csv files 
+    root_path = os.path.dirname(os.path.dirname("C:\Users\chang\DeepLabCut\main\JUPYTER\DLC_Data\bsoid_additional_output"))
+    np.savetxt(root_path+'\data.csv', data, delimiter=',')
+    np.savetxt(root_path + '\assignments.csv', assignments, delimiter=',')
+    ####### changes made above ########
+
     uk = list(np.unique(assignments))
     R = np.linspace(0, 1, len(uk))
-    cmap = plt.cm.get_cmap("Spectral")(R)
+    cmap = plt.cm.get_cmap("Spectral")(R) # color map
     umap_x, umap_y, umap_z = data[:, 0], data[:, 1], data[:, 2]
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     for g in np.unique(assignments):
         idx = np.where(np.array(assignments) == g)
         ax.scatter(umap_x[idx], umap_y[idx], umap_z[idx], c=cmap[g],
-                   label=g, s=0.4, marker='o', alpha=0.8)
+                   label=g, s=0.4, marker='o', alpha=0.8) 
     ax.set_xlabel('Dim. 1')
     ax.set_ylabel('Dim. 2')
     ax.set_zlabel('Dim. 3')
     plt.legend(ncol=3, markerscale=6)
+
+    ####### changes made here ########
+    #save figure
+    fig.savefig(root_path + '\HDBSCAN.png')
+    ####### changes made above ########
+    
     return fig, plt
 
 
